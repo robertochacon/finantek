@@ -15,6 +15,7 @@ class User extends Seeder
     {
 
         ModelsUser::create([
+            'company_id' => 1,
             'name' => 'Administrador',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
