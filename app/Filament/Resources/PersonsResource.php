@@ -5,13 +5,17 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PersonsResource\Pages;
 use App\Filament\Resources\PersonsResource\RelationManagers;
 use App\Models\Persons;
+use App\Services\JCEServices;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class PersonsResource extends Resource
 {
@@ -29,10 +33,46 @@ class PersonsResource extends Resource
     {
         return $form
         ->schema([
+            Forms\Components\FileUpload::make('image')
+                ->image()
+                ->avatar()
+                ->imageEditor()
+                ->circleCropper()
+                ->label('Foto de Perfil')
+                ->disk('public')
+                ->directory('profile-images')
+                ->downloadable(),
             Forms\Components\TextInput::make('identification')
                 ->label('Cédula')
                 ->maxLength(50)
-                ->default(null),
+                ->default(null)
+                ->live()
+                ->afterStateUpdated(function (?string $state, ?string $old, Set $set, Get $get) {
+
+                    $jceService = new JCEServices();
+                    $person = $jceService->getPerson($state);
+
+                    if ($person['success']) {
+                        $set('first_name', $person['citizenInfo']['nombres']);
+                        $set('last_name', $person['citizenInfo']['apellido1']);
+                        $set('second_last_name', $person['citizenInfo']['apellido2']);
+                        $set('gender', $person['citizenInfo']['ced_a_sexo']);
+
+                        $imageData = $person['citizenInfo']['foto_encoded'];
+
+                        if ($imageData) {
+                            // Decodifica la imagen desde base64
+                            $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+                            $image = str_replace(' ', '+', $image);
+                            $imageName = $state . '.jpg';
+
+                            Storage::disk('public')->put('profile-images/' . $imageName, base64_decode($image));
+
+                            $set('image', ['profile-images/' . $imageName]);
+
+                        }
+                    }
+            }),
             Forms\Components\TextInput::make('first_name')
                 ->label('Primer Nombre')
                 ->maxLength(50)
@@ -62,6 +102,15 @@ class PersonsResource extends Resource
                 ->options([
                     'active' => 'Activo',
                     'inactive' => 'Inactivo'
+                ])
+                ->searchable(),
+            Forms\Components\Select::make('type')
+                ->label('Tipo de registro')
+                ->default('cliente')
+                ->options([
+                    'cliente' => 'Cliente',
+                    'empleado' => 'Empleado',
+                    'usuario' => 'Usuario'
                 ])
                 ->searchable(),
         ]);
