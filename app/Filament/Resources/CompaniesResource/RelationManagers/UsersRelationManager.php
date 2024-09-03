@@ -16,9 +16,7 @@ class UsersRelationManager extends RelationManager
 
     protected static ?string $modelLabel = 'Usuario';
 
-    protected static ?string $pluralModelLabel = 'Usuarios';
-
-    protected static ?string $navigationLabel = 'Usuarios';
+    protected static ?string $title = 'Usuarios';
 
     public function form(Form $form): Form
     {

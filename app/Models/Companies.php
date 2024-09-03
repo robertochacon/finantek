@@ -24,4 +24,9 @@ class Companies extends Model
     	return $this->hasMany('App\Models\User', 'company_id');
     }
 
+    public function persons()
+    {
+    	return $this->hasMany('App\Models\Persons', 'company_id');
+    }
+
 }

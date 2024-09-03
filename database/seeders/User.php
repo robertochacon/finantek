@@ -20,6 +20,7 @@ class User extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin'),
             'remember_token' => null,
+            'role' => 'super',
             'created_at' => date("Y-m-d H:i:s")
         ]);
 

@@ -25,6 +25,8 @@ class CompaniesResource extends Resource
 
     protected static ?string $navigationLabel = 'Empresas';
 
+    protected static ?string $navigationGroup = 'Administración';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -100,6 +102,7 @@ class CompaniesResource extends Resource
     {
         return [
             RelationManagers\UsersRelationManager::class,
+            RelationManagers\PersonsRelationManager::class,
         ];
     }
 
@@ -110,5 +113,11 @@ class CompaniesResource extends Resource
             'create' => Pages\CreateCompanies::route('/create'),
             'edit' => Pages\EditCompanies::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+        return $user && $user->isSuper();
     }
 }

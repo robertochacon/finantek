@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\Pages;
+namespace App\Filament\Resources\PersonsResource\Pages;
 
-use App\Filament\Resources\UserResource;
+use App\Filament\Resources\PersonsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 
-class ListUsers extends ListRecords
+class ListPersons extends ListRecords
 {
-    protected static string $resource = UserResource::class;
+    protected static string $resource = PersonsResource::class;
 
     protected function getHeaderActions(): array
     {
