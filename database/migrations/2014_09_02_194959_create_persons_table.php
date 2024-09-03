@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('persons', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->string('identification', 50)->nullable();
             $table->string('first_name', 50)->nullable();
             $table->string('last_name', 50)->nullable();
@@ -20,6 +22,7 @@ return new class extends Migration
             $table->string('birthdate', 255)->nullable();
             $table->enum('gender', ['F','M'])->default('M');
             $table->enum('status', ['active','inactive'])->default('active');
+            $table->text('image')->nullable();
             $table->timestamps();
         });
     }
