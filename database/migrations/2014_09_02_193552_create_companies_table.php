@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('rnc', 11)->nullable();
             $table->string('website', 50)->nullable();
             $table->string('phone', 50)->nullable();
+            $table->string('address', 50)->nullable();
+            $table->text('logo')->nullable();
+            $table->string('color', 50)->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

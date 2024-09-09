@@ -31,27 +31,53 @@ class CompaniesResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('full_name')
-                    ->label('Nombre completo')
-                    ->maxLength(150)
-                    ->default(null),
-                Forms\Components\TextInput::make('short_name')
-                    ->label('Nombre corto')
-                    ->maxLength(60)
-                    ->default(null),
-                Forms\Components\TextInput::make('rnc')
-                    ->label('RNC')
-                    ->maxLength(11)
-                    ->default(null),
-                Forms\Components\TextInput::make('website')
-                    ->label('Sitio web')
-                    ->maxLength(50)
-                    ->default(null),
-                Forms\Components\TextInput::make('phone')
-                    ->label('Teléfono')
-                    ->tel()
-                    ->maxLength(50)
-                    ->default(null),
+                Forms\Components\Section::make('Información general')
+                ->schema([
+                    Forms\Components\TextInput::make('full_name')
+                        ->label('Nombre completo')
+                        ->maxLength(150)
+                        ->default(null),
+                    Forms\Components\TextInput::make('short_name')
+                        ->label('Nombre corto')
+                        ->maxLength(60)
+                        ->default(null),
+                    Forms\Components\TextInput::make('rnc')
+                        ->label('RNC')
+                        ->maxLength(11)
+                        ->default(null),
+                    Forms\Components\TextInput::make('website')
+                        ->label('Sitio web')
+                        ->maxLength(50)
+                        ->default(null),
+                    Forms\Components\TextInput::make('phone')
+                        ->label('Teléfono')
+                        ->tel()
+                        ->maxLength(50)
+                        ->default(null),
+                    Forms\Components\TextInput::make('address')
+                        ->label('Dirección')
+                        ->maxLength(200)
+                        ->default(null),
+                    Forms\Components\FileUpload::make('address')
+                        ->label('Logo de la empresa')
+                        ->image()
+                        ->imageEditor()
+                        ->circleCropper()
+                        ->disk('public')
+                        ->directory('companies-images')
+                        ->downloadable(),
+                    Forms\Components\ColorPicker::make('color')
+                        ->label('Color')
+                        ->default('Blue'),
+                    Forms\Components\Select::make('status')
+                        ->label('Estado')
+                        ->default('active')
+                        ->options([
+                            'active' => 'Activa',
+                            'inactive' => 'Inactiva'
+                        ])
+                        ->searchable(),
+                ])->columns(2)
             ]);
     }
 
@@ -61,29 +87,35 @@ class CompaniesResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('full_name')
                     ->label('Nombre completo')
-                    ->searchable(),
+                    ->searchable()
+                    ->default('N/A'),
                 Tables\Columns\TextColumn::make('short_name')
                     ->label('Nombre corto')
-                    ->searchable(),
+                    ->searchable()
+                    ->default('N/A'),
                 Tables\Columns\TextColumn::make('rnc')
                     ->label('RNC')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('website')
-                    ->label('Sitio web')
-                    ->searchable(),
+                    ->searchable()
+                    ->default('N/A'),
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Teléfono')
-                    ->searchable(),
+                    ->searchable()
+                    ->default('N/A'),
+                Tables\Columns\IconColumn::make('status')
+                ->label('Estado')
+                ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Fecha de creación')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->default('N/A'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Fecha de actualización')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->default('N/A'),
             ])
             ->filters([
                 //

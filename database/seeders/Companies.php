@@ -21,5 +21,14 @@ class Companies extends Seeder
             'phone' => null,
             'created_at' => date("Y-m-d H:i:s")
         ]);
+
+        ModelsCompanies::create([
+            'full_name' => 'Pali',
+            'short_name' => 'Pali',
+            'rnc' => '000000000',
+            'website' => null,
+            'phone' => null,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
     }
 }

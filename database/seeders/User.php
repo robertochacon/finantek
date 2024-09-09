@@ -24,5 +24,15 @@ class User extends Seeder
             'created_at' => date("Y-m-d H:i:s")
         ]);
 
+        ModelsUser::create([
+            'company_id' => 2,
+            'name' => 'Administrador',
+            'email' => 'admin@pali.com',
+            'password' => bcrypt('admin'),
+            'remember_token' => null,
+            'role' => 'admin',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+
     }
 }

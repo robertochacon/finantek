@@ -17,6 +17,11 @@ class Companies extends Model
         'rnc',
         'website',
         'phone',
+        'address',
+        'logo',
+        'color',
+        'status',
+
     ];
 
     public function users()
