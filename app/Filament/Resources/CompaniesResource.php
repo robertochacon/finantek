@@ -54,27 +54,29 @@ class CompaniesResource extends Resource
                         ->tel()
                         ->maxLength(50)
                         ->default(null),
-                    Forms\Components\TextInput::make('address')
+                    Forms\Components\ColorPicker::make('color')
+                        ->label('Color')
+                        ->default('Blue'),
+                    Forms\Components\Textarea::make('address')
                         ->label('Dirección')
-                        ->maxLength(200)
-                        ->default(null),
-                    Forms\Components\FileUpload::make('address')
+                        ->maxLength(150)
+                        ->minLength(2)
+                        ->rows(5),
+                    Forms\Components\FileUpload::make('logo')
                         ->label('Logo de la empresa')
                         ->image()
                         ->imageEditor()
                         ->circleCropper()
                         ->disk('public')
                         ->directory('companies-images')
+                        ->circleCropper()
                         ->downloadable(),
-                    Forms\Components\ColorPicker::make('color')
-                        ->label('Color')
-                        ->default('Blue'),
                     Forms\Components\Select::make('status')
                         ->label('Estado')
-                        ->default('active')
+                        ->default(true)
                         ->options([
-                            'active' => 'Activa',
-                            'inactive' => 'Inactiva'
+                            true => 'Activa',
+                            false => 'Inactiva'
                         ])
                         ->searchable(),
                 ])->columns(2)
@@ -85,6 +87,11 @@ class CompaniesResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('logo')
+                ->label('')
+                ->defaultImageUrl(url('storage/companies-images/default.png'))
+                ->disk('public')
+                ->circular(),
                 Tables\Columns\TextColumn::make('full_name')
                     ->label('Nombre completo')
                     ->searchable()
@@ -108,7 +115,6 @@ class CompaniesResource extends Resource
                     ->label('Fecha de creación')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->default('N/A'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Fecha de actualización')
