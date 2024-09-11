@@ -77,8 +77,7 @@ class CompaniesResource extends Resource
                         ->options([
                             true => 'Activa',
                             false => 'Inactiva'
-                        ])
-                        ->searchable(),
+                        ]),
                 ])->columns(2)
             ]);
     }

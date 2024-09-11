@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Types_documents extends Model
+class Types_movements extends Model
 {
     use HasFactory;
 
-    protected $table = 'types_documents';
+    protected $table = 'types_movements';
 
     protected $fillable = [
         'company_id',
