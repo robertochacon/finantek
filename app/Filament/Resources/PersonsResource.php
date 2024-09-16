@@ -119,12 +119,23 @@ class PersonsResource extends Resource
                 Forms\Components\Select::make('type')
                     ->label('Tipo de registro')
                     ->default('cliente')
+                    ->live()
                     ->options([
                         'cliente' => 'Cliente',
                         'empleado' => 'Empleado',
                         'usuario' => 'Usuario'
                     ])
                     ->searchable(),
+                Forms\Components\TextInput::make('position')
+                    ->label('Posición')
+                    ->maxLength(255)
+                    ->default(null)
+                    ->visible(fn (Get $get): bool => $get('type') == "empleado"),
+                Forms\Components\TextInput::make('salary')
+                    ->label('Salario')
+                    ->numeric()
+                    ->default(null)
+                    ->visible(fn (Get $get): bool => $get('type') == "empleado"),
             ])->columns(2)
         ]);
 
