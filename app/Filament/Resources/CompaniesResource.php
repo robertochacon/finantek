@@ -107,9 +107,8 @@ class CompaniesResource extends Resource
                     ->label('Teléfono')
                     ->searchable()
                     ->default('N/A'),
-                Tables\Columns\IconColumn::make('status')
-                ->label('Estado')
-                ->boolean(),
+                Tables\Columns\ToggleColumn::make('status')
+                ->label('Estado'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Fecha de creación')
                     ->dateTime()

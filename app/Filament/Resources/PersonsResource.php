@@ -29,6 +29,8 @@ class PersonsResource extends Resource
 
     protected static ?string $navigationLabel = 'Personas';
 
+    protected static ?string $navigationGroup = 'Administración';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -52,29 +54,36 @@ class PersonsResource extends Resource
                     ->live()
                     ->afterStateUpdated(function (?string $state, ?string $old, Set $set, Get $get) {
 
-                        $jceService = new JCEServices();
-                        $person = $jceService->getPerson($state);
+                        try {
 
-                        if ($person['success']) {
-                            $set('first_name', $person['citizenInfo']['nombres']);
-                            $set('last_name', $person['citizenInfo']['apellido1']);
-                            $set('second_last_name', $person['citizenInfo']['apellido2']);
-                            $set('gender', $person['citizenInfo']['ced_a_sexo']);
+                            $jceService = new JCEServices();
+                            $person = $jceService->getPerson($state);
 
-                            $imageData = $person['citizenInfo']['foto_encoded'];
+                            if ($person['success']) {
+                                $set('first_name', $person['citizenInfo']['nombres']);
+                                $set('last_name', $person['citizenInfo']['apellido1']);
+                                $set('second_last_name', $person['citizenInfo']['apellido2']);
+                                $set('gender', $person['citizenInfo']['ced_a_sexo']);
 
-                            if ($imageData) {
-                                // Decodifica la imagen desde base64
-                                $image = str_replace('data:image/jpeg;base64,', '', $imageData);
-                                $image = str_replace(' ', '+', $image);
-                                $imageName = $state . '.jpg';
+                                $imageData = $person['citizenInfo']['foto_encoded'];
 
-                                Storage::disk('public')->put('profile-images/' . $imageName, base64_decode($image));
+                                if ($imageData) {
+                                    // Decodifica la imagen desde base64
+                                    $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+                                    $image = str_replace(' ', '+', $image);
+                                    $imageName = $state . '.jpg';
 
-                                $set('image', ['profile-images/' . $imageName]);
+                                    Storage::disk('public')->put('profile-images/' . $imageName, base64_decode($image));
 
+                                    $set('image', ['profile-images/' . $imageName]);
+
+                                }
                             }
+
+                        } catch (\Throwable $th) {
+                            //throw $th;
                         }
+
                 }),
                 Forms\Components\TextInput::make('first_name')
                     ->label('Primer Nombre')
@@ -142,7 +151,7 @@ class PersonsResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('gender')
                     ->label('Género'),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\ToggleColumn::make('status')
                     ->label('Estado'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Fecha de Creación')
