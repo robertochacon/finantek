@@ -136,6 +136,10 @@ class PersonsResource extends Resource
                     ->numeric()
                     ->default(null)
                     ->visible(fn (Get $get): bool => $get('type') == "empleado"),
+                Forms\Components\DatePicker::make('contract_start_date')
+                    ->label('Fecha de inicio')
+                    ->default(null)
+                    ->visible(fn (Get $get): bool => $get('type') == "empleado"),
             ])->columns(2)
         ]);
 

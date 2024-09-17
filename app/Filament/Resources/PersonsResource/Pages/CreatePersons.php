@@ -19,6 +19,7 @@ class CreatePersons extends CreateRecord
         Session::put('type_person', $data['type'] ?? null);
         Session::put('position_person', $data['position'] ?? null);
         Session::put('salary_person', $data['salary'] ?? null);
+        Session::put('contract_start_date', $data['contract_start_date'] ?? null);
         return $data;
     }
 
@@ -27,6 +28,7 @@ class CreatePersons extends CreateRecord
         $typePerson = Session::pull('type_person');
         $positionPerson = Session::pull('position_person');
         $salaryPerson = Session::pull('salary_person');
+        $contract_start_date = Session::pull('contract_start_date');
 
         if($typePerson == 'cliente'){
             Clients::create([
@@ -38,8 +40,9 @@ class CreatePersons extends CreateRecord
             Employees::create([
                 'person_id' => $this->record->id,
                 'company_id' => $this->record->company_id,
-                'company_id' => $positionPerson,
-                'company_id' => $salaryPerson,
+                'position' => $positionPerson,
+                'salary' => $salaryPerson,
+                'contract_start_date' => $contract_start_date,
                 'created_at' => now(),
             ]);
         }
