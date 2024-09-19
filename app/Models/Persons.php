@@ -19,6 +19,8 @@ class Persons extends Model
         'second_last_name',
         'birthdate',
         'gender',
+        'nationality',
+        'marital_status',
         'status',
         'image',
     ];

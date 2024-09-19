@@ -14,6 +14,13 @@ class Clients extends Model
     protected $fillable = [
         'person_id',
         'company_id',
+        'personal_references',
+        'family_references',
+        'business_references',
+        'expenses_home',
+        'expenses_credit_quotas',
+        'expenses_other',
+        'warranty',
         'status',
     ];
 

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('last_name', 50)->nullable();
             $table->string('second_last_name', 50)->nullable();
             $table->string('birthdate', 255)->nullable();
+            $table->string('nationality', 255)->nullable();
+            $table->string('marital_status', 255)->nullable();
             $table->enum('gender', ['F','M'])->default('M');
             $table->boolean('status')->default(true);
             $table->text('image')->nullable();

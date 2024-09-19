@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PersonsResource\Pages;
 use App\Filament\Resources\PersonsResource;
 use App\Models\Clients;
 use App\Models\Employees;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Session;
@@ -44,6 +45,16 @@ class CreatePersons extends CreateRecord
                 'salary' => $salaryPerson,
                 'contract_start_date' => $contract_start_date,
                 'created_at' => now(),
+            ]);
+        }else if($typePerson == 'usuario'){
+            User::create([
+                'company_id' => 1,
+                'name' => 'Administrador',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('admin'),
+                'remember_token' => null,
+                'role' => 'super',
+                'created_at' => date("Y-m-d H:i:s")
             ]);
         }
 
